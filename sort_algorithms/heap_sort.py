@@ -108,10 +108,101 @@ def big_top_heap(param_list: List[int], node_index: int, len_list: int):
         node_index = max_index
 
 
+def heap_sort_func(param_list: List[int]):
+    """
+    堆排序(从小到大)
+    :param param_list:
+    :return:
+    """
+    length = len(param_list)
+    build_heap_func(param_list, length)
+    # print(param_list)
+    temp_index = length - 1
+
+    while temp_index > 0:
+        param_list[0], param_list[temp_index] = param_list[temp_index], param_list[0]
+        big_top_heap(param_list, 0, temp_index)
+        temp_index -= 1
+
+
+# ****************最大topK************************
+class FindTopK:
+
+    def __init__(self, top_k: int):
+        self._top_k = top_k
+        self._top_k_list = []
+        self._list = []
+        self._count = 0
+
+    def insert(self, param: int):
+        """
+        插入数据
+        :param param:
+        :return:
+        """
+        self._list.append(param)
+
+        if self._count == self._top_k:
+            # 将值赋给堆顶元素，同时向下堆化
+            if param > self._top_k_list[0]:
+                self._top_k_list[0] = param
+                temp_index = 0
+                while True:
+                    min_index = temp_index
+
+                    if 2 * temp_index + 1 < self._count and self._top_k_list[2 * temp_index + 1] < self._top_k_list[min_index]:
+                        min_index = 2 * temp_index + 1
+
+                    if 2 * temp_index + 2 < self._count and self._top_k_list[2 * temp_index + 2] < self._top_k_list[min_index]:
+                        min_index = 2 * temp_index + 2
+
+                    if min_index == temp_index:
+                        break
+
+                    self._top_k_list[temp_index], self._top_k_list[min_index] = self._top_k_list[min_index], self._top_k_list[temp_index]
+                    temp_index = min_index
+            return
+
+        self._top_k_list.append(param)
+        self._count += 1
+        node_index = self._count - 1
+
+        while (node_index>>1) >= 0 and self._top_k_list[node_index] < self._top_k_list[(node_index>>1)]:
+            self._top_k_list[node_index], self._top_k_list[(node_index>>1)] = self._top_k_list[(node_index>>1)], self._top_k_list[node_index]
+            node_index = (node_index>>1)
+
+    def delete(self, param: int):
+        """
+        删除数据
+        :param param:
+        :return:
+        """
+
+    def get_top_k(self):
+        """
+        最大的k个值
+        :return:
+        """
+        return self._top_k_list
+
+    def get_list(self):
+
+        return self._list
+
+
 if __name__ == '__main__':
     # var_array = [4, 6, 3, 9, 1, 2]
     var_array = [4, 6, 3, 9, 1, 2, 3]
+    # var_array = [9, 6, 4, 3, 2, 1]
     # var_array = [1, 2, 3, 4, 6, 9]
     # heap_sort(var_array)
-    build_heap_func(var_array, len(var_array))
-    print(var_array)
+    # build_heap_func(var_array, len(var_array))
+    # heap_sort_func(var_array)
+    # print(var_array)
+    top_k_class = FindTopK(4)
+    for i in var_array:
+        top_k_class.insert(i)
+    top_k_class.insert(10)
+    top_k_class.insert(1)
+    print(top_k_class.get_top_k())
+    print(top_k_class.get_list())
