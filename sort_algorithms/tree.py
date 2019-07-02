@@ -75,7 +75,9 @@ class BinarySearchTree:
         if target_node is None:  # 没找到
             return
 
-        if target_node.left and target_node.right:  # 目标节点有两个子节点，转化为目标节点只有一个或者没有子节点
+        # 目标节点有两个子节点，转化为目标节点只有一个或者没有子节点，
+        # 为了保持二叉查找树将右子树最小节点赋目标节点
+        if target_node.left and target_node.right:
             min_left_node = target_node.right
             min_left_node_parent = target_node
 
@@ -89,7 +91,7 @@ class BinarySearchTree:
         child = None
         if target_node.left:
             child = target_node.left
-        elif target_node.right:
+        if target_node.right:
             child = target_node.right
 
         if parent_node is None:  # 对应根节点只有一个子节点
@@ -98,8 +100,6 @@ class BinarySearchTree:
             parent_node.left = child
         else:
             parent_node.right = child
-
-
 
     def display_tree(self):
         """
@@ -149,6 +149,63 @@ class BinarySearchTree:
 
         return node_the_tree
 
+    def pre_order_traversal(self):
+        """前序遍历:递归实现"""
+
+        if self.__tree is None:
+            return
+
+        pre_order_list = []
+        self.__pre_order_traversal(self.__tree, pre_order_list)
+        return pre_order_list
+
+    def post_order_traversal(self):
+        """前序遍历:递归实现"""
+
+        if self.__tree is None:
+            return
+
+        post_order_list = []
+        self.__post_order_traversal(self.__tree, post_order_list)
+        return post_order_list
+
+    def in_order_traversal(self):
+        """中序遍历:递归实现"""
+
+        if self.__tree is None:
+            return
+
+        in_order_list = []
+        self.__in_order_traversal(self.__tree, in_order_list)
+        return in_order_list
+
+    def __pre_order_traversal(self, node, list_param):
+
+        if node is None:
+            return
+
+        list_param.append(node.data)
+        self.__pre_order_traversal(node.left, list_param)
+        self.__pre_order_traversal(node.right, list_param)
+
+    def __in_order_traversal(self, node, list_param):
+
+        if node is None:
+            return
+
+        self.__in_order_traversal(node.left, list_param)
+        list_param.append(node.data)
+        self.__in_order_traversal(node.right, list_param)
+
+    def __post_order_traversal(self, node, list_param):
+
+        if node is None:
+            return
+
+        self.__post_order_traversal(node.left, list_param)
+        self.__post_order_traversal(node.right, list_param)
+        list_param.append(node.data)
+
 
 
 if __name__ == '__main__':
@@ -164,10 +221,15 @@ if __name__ == '__main__':
     search_node = binary_search_tree.find(9)
     print(search_node)
 
-    binary_search_tree.delete(3)
-    binary_search_tree.display_tree()
-    level_node = binary_search_tree.display_tree_accord_level()
-    print(level_node)
+    # binary_search_tree.delete(3)
+    # binary_search_tree.display_tree()
+    # level_node = binary_search_tree.display_tree_accord_level()
+    # print(level_node)
+
+    print(binary_search_tree.pre_order_traversal())
+    print(binary_search_tree.in_order_traversal())
+    print(binary_search_tree.post_order_traversal())
+
 
 
 
