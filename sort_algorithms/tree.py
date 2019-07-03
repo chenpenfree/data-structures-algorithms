@@ -206,6 +206,57 @@ class BinarySearchTree:
         self.__post_order_traversal(node.right, list_param)
         list_param.append(node.data)
 
+    def target_node_next(self, data):
+        """
+        目标节点的后继节点
+        :param data:
+        :return:
+        """
+        if self.__tree is None:
+            return
+
+        temp_node = self.__tree
+        while temp_node:
+            if temp_node.data == data:
+                break
+            elif temp_node.data > data:
+                temp_node = temp_node.left
+            else:
+                temp_node = temp_node.right
+
+        result_list = []
+        if temp_node.left:
+            result_list.append(temp_node.left.data)
+        if temp_node.right:
+            result_list.append(temp_node.right.data)
+
+        return result_list
+
+    def target_node_before(self, data):
+        """
+        目标节点之前的节点
+        :param data:
+        :return:
+        """
+        if self.__tree is None:
+            return
+
+        parent_node = None
+        temp_node = self.__tree
+        while temp_node:
+            if temp_node.data == data:
+                break
+            elif temp_node.data < data:
+                parent_node = temp_node
+                temp_node = temp_node.right
+            else:
+                parent_node = temp_node
+                temp_node = temp_node.left
+
+        if parent_node is None or temp_node is None:  # 根节点没有父节点
+            return
+
+        return parent_node.data
 
 
 if __name__ == '__main__':
@@ -219,16 +270,18 @@ if __name__ == '__main__':
     print(level_node)
 
     search_node = binary_search_tree.find(9)
-    print(search_node)
+    # print(search_node)
+    # print(binary_search_tree.target_node_next(1))
+    print(binary_search_tree.target_node_before(10))
 
     # binary_search_tree.delete(3)
     # binary_search_tree.display_tree()
     # level_node = binary_search_tree.display_tree_accord_level()
     # print(level_node)
 
-    print(binary_search_tree.pre_order_traversal())
-    print(binary_search_tree.in_order_traversal())
-    print(binary_search_tree.post_order_traversal())
+    # print(binary_search_tree.pre_order_traversal())
+    # print(binary_search_tree.in_order_traversal())
+    # print(binary_search_tree.post_order_traversal())
 
 
 
