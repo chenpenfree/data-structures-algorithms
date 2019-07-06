@@ -17,7 +17,7 @@ def sort(param: List[int], start_pos, end_pos):
         
     middle_pos = (start_pos + end_pos) >> 1
     sort(param, start_pos, middle_pos)
-    sort(param, middle + 1, end_pos)
+    sort(param, middle_pos + 1, end_pos)
     
     merge(param, start_pos, middle_pos, end_pos)
     
@@ -37,12 +37,12 @@ def merge(param, start_pos, middle_pos, end_pos):
     if start_index > middle_pos:
         temp_list += param[end_index: end_pos + 1]
     if end_index > end_pos:
-        temp_list += param[start_index: middle + 1]
+        temp_list += param[start_index: middle_pos + 1]
     
     param[start_pos: end_pos + 1] = temp_list
     
     
 if __name__ == '__main__':
-    var_list = [9, ,5, 8, 6, 1, 3, 2]
+    var_list = [9,5, 8, 6, 1, 3, 2]
     merge_sort(var_list)
     print(var_list)
