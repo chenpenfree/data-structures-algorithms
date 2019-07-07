@@ -5,10 +5,12 @@ class Node:
     """
     树的节点
     """
+
     def __init__(self, data):
         self.data = data
         self.left = None
         self.right = None
+
 
 class BinarySearchTree:
     """
@@ -258,6 +260,65 @@ class BinarySearchTree:
 
         return parent_node.data
 
+    def invert_tree(self):
+        """
+        二叉树翻转：按层遍历
+        :return:
+        """
+        if self.__tree is None:
+            return
+
+        list_queue = [self.__tree]
+        while len(list_queue) > 0:
+            temp_node = list_queue.pop(0)
+            if temp_node.left:
+                list_queue.append(temp_node.left)
+            if temp_node.right:
+                list_queue.append(temp_node.right)
+
+            temp_node.left, temp_node.right = temp_node.right, temp_node.left
+
+    def invert_tree_recursion(self):
+        """
+        二叉树翻转：递归实现
+        :return:
+        """
+        if self.__tree is None:
+            return
+
+        self.__invert_tree_recursion(self.__tree)
+
+    def __invert_tree_recursion(self, node):
+
+        if node is None:
+            return
+        node.left, node.right = node.right, node.left
+        self.__invert_tree_recursion(node.left)
+        self.__invert_tree_recursion(node.right)
+
+    def max_depth(self):
+        """
+        树的最大深度，二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+        :return:
+        """
+        if self.__tree is None:
+            return 0
+
+        list_queue = [self.__tree]
+        level = 0
+
+        while list_queue:
+            for node in range(len(list_queue)):
+                temp_node = list_queue.pop(0)
+
+                if temp_node.left:
+                    list_queue.append(temp_node.left)
+                if temp_node.right:
+                    list_queue.append(temp_node.right)
+            level += 1
+
+        return level
+
 
 if __name__ == '__main__':
     var_list = [1, 9, 3, 0, 6, 5, 7]
@@ -269,10 +330,17 @@ if __name__ == '__main__':
     level_node = binary_search_tree.display_tree_accord_level()
     print(level_node)
 
-    search_node = binary_search_tree.find(9)
+    print(binary_search_tree.max_depth())
+    # binary_search_tree.invert_tree()
+    binary_search_tree.invert_tree_recursion()
+    level_node = binary_search_tree.display_tree_accord_level()
+    print(level_node)
+
+
+    # search_node = binary_search_tree.find(9)
     # print(search_node)
     # print(binary_search_tree.target_node_next(1))
-    print(binary_search_tree.target_node_before(10))
+    # print(binary_search_tree.target_node_before(10))
 
     # binary_search_tree.delete(3)
     # binary_search_tree.display_tree()
@@ -282,8 +350,3 @@ if __name__ == '__main__':
     # print(binary_search_tree.pre_order_traversal())
     # print(binary_search_tree.in_order_traversal())
     # print(binary_search_tree.post_order_traversal())
-
-
-
-
-

@@ -40,6 +40,8 @@ def merge(param, start_pos, middle_pos, end_pos):
         temp_list += param[start_index: middle_pos + 1]
     
     param[start_pos: end_pos + 1] = temp_list
+
+
     
     
 if __name__ == '__main__':
