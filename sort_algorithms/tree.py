@@ -319,6 +319,24 @@ class BinarySearchTree:
 
         return level
 
+    def has_sum_path(self,num: int) -> bool:
+        """
+        求是否存在满足num的路径
+        :param num:
+        :return:
+        """
+        temp_node = self.__tree
+        return self._has_sum_path(temp_node, num)
+
+    def _has_sum_path(self, node, num: int) -> bool:
+        if node is None:
+            return False
+
+        if not node.left and not node.right:
+            return node.data == num
+
+        return self._has_sum_path(node.left, num - node.data) or self._has_sum_path(node.right, num - node.data)
+
 
 if __name__ == '__main__':
     var_list = [1, 9, 3, 0, 6, 5, 7]

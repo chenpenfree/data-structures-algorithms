@@ -54,6 +54,10 @@ def partition_two(var_list: typing.List[int], start_position, end_position):
         while left < right and var_list[left] <= pivot:
             left += 1
 
+        # # 控制right指针比较并左移
+        # while left < right and var_list[right] > pivot:
+        #     right -= 1
+
         # 交换left和right指向的元素
         if left < right:
             var_list[left], var_list[right] = var_list[right], var_list[left]
@@ -66,6 +70,7 @@ def partition_two(var_list: typing.List[int], start_position, end_position):
 
 if __name__ == '__main__':
     var = [1, 9, 5, 3, 7, 4, 0]
+    # var = [9, 8, 1, 2, 5, 0, 7]
 
     quick_sort(var)
 
