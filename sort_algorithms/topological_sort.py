@@ -1,6 +1,3 @@
-import typing as tp
-
-
 class Graph:
     """有向无环图：拓扑排序"""
 
@@ -9,6 +6,7 @@ class Graph:
         self._result = []  # 排序结果
         self._in_degree = [0 for _ in range(self._vertex_num + 1)]  # 入度
         self._adjacency_table = [[] for _ in range(self._vertex_num + 1)]  # 邻接表存储图
+        self._inverse_adjacency_table = [[] for _ in range(self._vertex_num + 1)]  # 逆邻接表存储图
 
     def build_graph_adjacency_table(self, start: int, end: int):
         """
@@ -17,8 +15,9 @@ class Graph:
         :param end:
         :return:
         """
-        self._adjacency_table[start].append(end)
-        self._in_degree[end] += 1
+        self._adjacency_table[start].append(end)  # 存储节点的出度节点
+        self._inverse_adjacency_table[end].append(start)  # 存储节点的入度节点
+        self._in_degree[end] += 1  # 存储节点的入度数目
 
     def topological_bfs(self):
         """
@@ -49,32 +48,32 @@ class Graph:
             print('图中有环!')
             return None
 
-    def topological_dfs(self):
+    def topological_dfs_dag(self):
         """
-        拓扑排序(dfs)
+        拓扑排序(dfs): 无环
         :return:
         """
-        visited = [False] * (self._vertex_num + 1)
         for vertex in range(1, self._vertex_num + 1):
-            if not visited[vertex]:
-                self._topological_dfs(vertex, visited)
+            if vertex not in self._result:
+                self._topological_dfs_dag(vertex)
 
-    def _topological_dfs(self, index, visited):
+    def _topological_dfs_dag(self, index):
         """
         递归实现
         :return:
         """
-        if visited[index]:
+        if index in self._result:
             return
 
         for i in self._adjacency_table[index]:
-            if not visited[i]:
-                self._topological_dfs(i, visited)
+            if i not in self._result:
+                self._topological_dfs_dag(i)
+
         self._result.append(index)
-        visited[index] = True
 
     def print_graph(self):
         print(self._adjacency_table)
+        print(self._inverse_adjacency_table)
 
     def print_result_bfs(self):
         print(self._result)
@@ -95,5 +94,5 @@ if __name__ == '__main__':
 
     graph_var.print_graph()
     # graph_var.topological_bfs()
-    graph_var.topological_dfs()
-    graph_var.print_result_dfs()
+    # graph_var.topological_dfs_dag()
+    # graph_var.print_result_dfs()
