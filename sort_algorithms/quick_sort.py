@@ -38,7 +38,7 @@ def partition_one(var_list: typing.List[int], start_position, end_position):
     return mark
 
 def partition_two(var_list: typing.List[int], start_position, end_position):
-    """获取分割点：双边扫描，选取最后一个元素为基点"""
+    """获取分割点：双边扫描，选取第一个元素为基点"""
 
     # 取第一个位置的元素作为基准元素
     pivot = var_list[start_position]
